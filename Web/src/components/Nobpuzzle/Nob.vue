@@ -1,5 +1,5 @@
 <template>
-    <Pickable id="nob" :x='44' :y='59'/>    
+    <Pickable :x='44' :y='59' @itemPicked="addToInventory"/>    
 </template>
 
 <script>
@@ -8,8 +8,19 @@ export default {
 
     components: {
         Pickable
-    }
+    },
 
+    methods:{
+
+        addToInventory(){
+            console.log('trying to add');
+            this.$store.commit('addToInventory',this);
+        }
+    },
+
+    beforeDestroy(){
+        document.getElementById("nob").remove()
+    }
 };
 </script>
 

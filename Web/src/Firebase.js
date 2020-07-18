@@ -3,7 +3,7 @@ import 'firebase/database';
 
 export const firebaseapp = firebase.initializeApp({
     apiKey: "AIzaSyD91_X-bcGQSocWDi2wFsKVk5_Ahq9fLj8",
-    authDomain: "puzzlesite-4c02c.firebaseapp.com",
+    authDomain: "puzzlesite-4c02c.firebaseapp.com", 
     databaseURL: "https://puzzlesite-4c02c.firebaseio.com",
     projectId: "puzzlesite-4c02c",
     storageBucket: "puzzlesite-4c02c.appspot.com",

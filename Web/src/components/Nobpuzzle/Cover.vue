@@ -1,8 +1,8 @@
 <template>
-    <div class="cover__bounds" >
-        <VueDraggable :w=500 :h=300 :x=395 :parent="true" @dragging="onDrag" class="__cover" :draggable="nobInserted"  >
+    <div class="cover__bounds" ref="bounds">
+        <VueDraggable :w=500 :h=300 :x="startX" :parent="true" @dragging="onDrag" :draggable="nobInserted"  >
             <div class="cover__cover">
-                <div class="cover__hole"></div>
+                <div class="cover__hole" @click="InsetNob" :class="{active: nobInserted}" />
             </div>
         </VueDraggable>
     </div>
@@ -14,8 +14,9 @@ export default {
 
     data: () => {
         return{
-            x: 500,
-            y: 500,
+            x: 0,
+            y: 0,
+            startX: 0,
             nobInserted: false
         }
     },
@@ -28,8 +29,35 @@ export default {
         onDrag(x,y){
             this.x = x;
             this.y = y
+        },
+
+        findCenter(){
+            if(!this.nobInserted){
+                this.startX = this.$refs.bounds.clientWidth / 2 - 259;
+            }
+        },
+
+        checkSide(){
+            if(!this.$store.state.coverLeft && this.x < this.startX){
+                this.$store.commit("changeCoverSide", true)
+            }
+            else if (this.$store.state.coverLeft && this.x > this.startX){
+                this.$store.commit("changeCoverSide", false)
+            }
+        },
+
+        InsetNob(){
+            if (this.$store.state.inventory.s1){
+                this.nobInserted = true
+                this.$store.state.inventory.s1.$destroy()
+            } 
         }
     },
+
+    mounted(){
+        setInterval(this.findCenter, 1)
+        setInterval(this.checkSide, 100)
+    }
 
 };
 </script>
@@ -42,21 +70,15 @@ export default {
         width: 500px;
         height: 300px;
         top: 1000px;
-        border: 1px solid #707070;
+        border: 2px solid var(--dark);
         border-radius: 7px;
-        background: #f9f9f8;
+        background: var(--foreground);
         display: flex;
         justify-content: center;
         align-items: center;
     }
 
-    &__bounds {
-        //margin: auto;
-      //  margin-top: 300px;
-        width: 100%;
-        height: 300px;
-
-    }
+    
 
     &__hole {
         width: 10px;
@@ -64,7 +86,18 @@ export default {
         margin-left: 418px;
         border: 1px solid #6d6a6a;
         border-radius: 4px;
-        background: #fff;
+        background: #EFF4F9;
+        &.active {
+            background: #4a4a4a;
+        }
     }
+
+    &__bounds {
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            height: 300px;
+
+        }
 }
 </style>

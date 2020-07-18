@@ -34,7 +34,7 @@ export default {
         setPicked(value) {
             this.isPicked = value
             console.log(this.isPicked)
-            this.$emit("ItemPicked")
+            this.$emit("itemPicked")
         },
 
         getMousePosition(e) {
@@ -54,7 +54,6 @@ export default {
         update() {
             
             if (this.isPicked){
-                console.log("bla")
                 this.itemPos.x += (this.mousePos.x - this.itemPos.x) * 0.1;
                 this.itemPos.y += (this.mousePos.y - this.itemPos.y) * 0.1;
             }
@@ -72,7 +71,7 @@ export default {
     },
 
     destroyed (){
-        //clearInterval(this.refresh)
+        clearInterval(this.refresh)
     }
 
 
